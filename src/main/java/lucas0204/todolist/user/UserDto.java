@@ -3,7 +3,7 @@ package lucas0204.todolist.user;
 public class UserDto {
     private String username;
     private String name;
-    private  String password;
+    private String password;
 
     public void setUsername(String username) {
         this.username = username;
