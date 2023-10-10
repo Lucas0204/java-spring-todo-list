@@ -11,6 +11,6 @@ public class UserController {
 
     @PostMapping()
     public void create(@RequestBody UserDto userDto) {
-        System.out.println(userDto);
+        System.out.println(userDto.getUsername());
     }
 }
