@@ -1,26 +1,30 @@
-package lucas0204.todolist.user;
+package lucas0204.todolist.task;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lucas0204.todolist.user.UserDto;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Entity(name = "users")
-public class UserDto {
+@Entity(name = "tasks")
+public class TaskDto {
     @Id
     @GeneratedValue(generator = "UUID")
     private UUID id;
 
-    @Column(unique = true)
-    private String username;
-    private String name;
-    private String password;
+    @Column(length = 50)
+    private String title;
+    private String description;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
+    private String priority;
+    private UUID userId;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
