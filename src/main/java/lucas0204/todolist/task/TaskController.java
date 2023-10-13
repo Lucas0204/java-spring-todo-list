@@ -32,14 +32,14 @@ public class TaskController {
                                      @RequestAttribute(name = "userId") UUID userId)
     {
         taskDto.setId(id);
-        taskDto.setUserId(userId);
+
         try {
-            var task = taskService.updateTask(taskDto);
+            var task = taskService.updateTask(taskDto, userId);
             return ResponseEntity.status(HttpStatus.CREATED).body(task);
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getMessage());
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

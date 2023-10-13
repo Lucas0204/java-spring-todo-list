@@ -25,9 +25,17 @@ public class TaskService {
         return taskRepository.findAllByUserId(userId);
     }
 
-    public TaskDto updateTask(TaskDto taskDto) throws HttpClientErrorException, NoSuchElementException {
+    public TaskDto updateTask(TaskDto taskDto, UUID userId) throws HttpClientErrorException, NoSuchElementException {
         validateTaskDto(taskDto);
-        var savedTask = taskRepository.findById(taskDto.getId()).orElseThrow();
+        var savedTask = taskRepository.findById(taskDto.getId()).orElse(null);
+
+        if (savedTask == null) {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Task to edit not found");
+        }
+        if (!savedTask.getUserId().equals(userId)) {
+            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "User does not have permission to edit this task");
+        }
+
         TodolistUtils.copyNonNullValues(taskDto, savedTask);
         return taskRepository.save(savedTask);
     }
